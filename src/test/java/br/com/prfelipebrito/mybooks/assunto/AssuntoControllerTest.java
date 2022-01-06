@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.prfelipebrito.mybooks.MybooksApplicationTests;
-import br.com.prfelipebrito.mybooks.api.assunto.AssuntoForm;
+import br.com.prfelipebrito.mybooks.api.assunto.AssuntoCreateForm;
 import br.com.prfelipebrito.mybooks.api.assunto.AssuntoView;
 
 public class AssuntoControllerTest extends MybooksApplicationTests {
@@ -27,7 +27,7 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 	
 	@Test
 	public void whenSaving_thenReturns201() throws Exception {
-		AssuntoForm assuntoForm = new AssuntoForm("Ficção");
+		AssuntoCreateForm assuntoForm = new AssuntoCreateForm("Ficção");
 		AssuntoView assuntoView = new AssuntoView(1, "Ficção");
 
 		String request = this.objectMapper.writeValueAsString(assuntoForm);

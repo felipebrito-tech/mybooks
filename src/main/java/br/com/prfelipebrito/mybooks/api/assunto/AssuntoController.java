@@ -25,9 +25,11 @@ public class AssuntoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<AssuntoView> create(UriComponentsBuilder uriBuilder, @RequestBody AssuntoForm form) {
-		URI uri = uriBuilder.path("/list").build().toUri();
+	public ResponseEntity<AssuntoView> create(UriComponentsBuilder uriBuilder, @RequestBody AssuntoCreateForm form) {
+		AssuntoView assuntoView = this.service.save(form);
 
-		return ResponseEntity.created(uri).header("Content-Type", "application/json;charset=UTF-8").body(new AssuntoView(1, "Ficção"));
+		URI uri = uriBuilder.path("/assuntos/{codAs}").buildAndExpand(assuntoView.getCodAs()).toUri();
+
+		return ResponseEntity.created(uri).header("Content-Type", "application/json;charset=UTF-8").body(assuntoView);
 	}
 }

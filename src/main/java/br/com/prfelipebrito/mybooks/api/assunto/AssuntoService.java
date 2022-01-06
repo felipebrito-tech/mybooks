@@ -22,11 +22,11 @@ public class AssuntoService {
 		return this.repository.findAll().stream().map(this.viewMapper::map).collect(Collectors.toList());
 	}
 
-	public Integer save(AssuntoForm assuntoForm) {
-		var assunto = formMapper.map(assuntoForm);
+	public AssuntoView save(AssuntoCreateForm assuntoForm) {
+		var assunto = this.formMapper.map(assuntoForm);
 		
 		this.repository.save(assunto);
 		
-		return assunto.getCodAs();
+		return this.viewMapper.map(assunto);
 	}
 }
