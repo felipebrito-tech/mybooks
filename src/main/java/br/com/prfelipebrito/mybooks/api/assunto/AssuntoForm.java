@@ -7,6 +7,11 @@ public class AssuntoForm {
 	private String descricao;
 
 	public AssuntoForm(String descricao) {
+		this(null, descricao);
+	}
+
+	public AssuntoForm(Integer codAs, String descricao) {
+		this.codAs = codAs;
 		this.descricao = descricao;
 	}
 
