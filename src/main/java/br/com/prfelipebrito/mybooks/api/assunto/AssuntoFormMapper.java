@@ -6,10 +6,10 @@ import br.com.prfelipebrito.mybooks.shared.domain.Assunto;
 import br.com.prfelipebrito.mybooks.shared.infra.Mapper;
 
 @Component
-public class AssuntoFormMapper implements Mapper<AssuntoCreateForm, Assunto> {
+public class AssuntoFormMapper implements Mapper<AssuntoForm, Assunto> {
 
 	@Override
-	public Assunto map(AssuntoCreateForm source) {
+	public Assunto map(AssuntoForm source) {
 		return new Assunto(null, source.getDescricao());
 	}
 

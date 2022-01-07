@@ -3,6 +3,8 @@ package br.com.prfelipebrito.mybooks.api.assunto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,8 @@ public class AssuntoService {
 		return this.repository.findAll().stream().map(this.viewMapper::map).collect(Collectors.toList());
 	}
 
-	public AssuntoView save(AssuntoCreateForm assuntoForm) {
+	@Transactional
+	public AssuntoView save(AssuntoForm assuntoForm) {
 		var assunto = this.formMapper.map(assuntoForm);
 		
 		this.repository.save(assunto);
@@ -35,6 +38,18 @@ public class AssuntoService {
 	public AssuntoView details(Integer codAs) {
 		Assunto assunto = this.repository.findByCodAs(codAs).orElse(null);
 
+		return this.viewMapper.map(assunto);
+	}
+
+	@Transactional
+	public AssuntoView update(Integer codAs, AssuntoForm assuntoForm) {
+		Assunto assunto = this.repository.findByCodAs(codAs).orElse(null);
+		
+		if (assunto == null)		
+			return null;
+		
+		assunto.setDescricao(assuntoForm.getDescricao());
+		
 		return this.viewMapper.map(assunto);
 	}
 }

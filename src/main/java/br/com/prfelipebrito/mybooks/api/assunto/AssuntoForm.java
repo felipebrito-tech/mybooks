@@ -1,12 +1,12 @@
 package br.com.prfelipebrito.mybooks.api.assunto;
 
-public class AssuntoCreateForm {
+public class AssuntoForm {
 
 	private String descricao;
 
-	public AssuntoCreateForm() {}
+	public AssuntoForm() {}
 	
-	public AssuntoCreateForm(String descricao) {
+	public AssuntoForm(String descricao) {
 		this.descricao = descricao;
 	}
 

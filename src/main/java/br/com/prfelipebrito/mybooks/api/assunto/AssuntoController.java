@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,7 @@ public class AssuntoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<AssuntoView> create(UriComponentsBuilder uriBuilder, @RequestBody AssuntoCreateForm form) {
+	public ResponseEntity<AssuntoView> create(@RequestBody AssuntoForm form, UriComponentsBuilder uriBuilder) {
 		AssuntoView assuntoView = this.service.save(form);
 
 		URI uri = uriBuilder.path("/assuntos/{codAs}").buildAndExpand(assuntoView.getCodAs()).toUri();
@@ -39,5 +40,10 @@ public class AssuntoController {
 		AssuntoView assuntoView = this.service.details(codAs);
 		
 		return assuntoView;
+	}
+
+	@PutMapping("{codAs}")
+	public AssuntoView update(@PathVariable Integer codAs, @RequestBody AssuntoForm form, UriComponentsBuilder uriBuilder) {
+		return this.service.update(codAs, form);
 	}
 }

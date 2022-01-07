@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.prfelipebrito.mybooks.MybooksApplicationTests;
-import br.com.prfelipebrito.mybooks.api.assunto.AssuntoCreateForm;
+import br.com.prfelipebrito.mybooks.api.assunto.AssuntoForm;
 import br.com.prfelipebrito.mybooks.api.assunto.AssuntoService;
 import br.com.prfelipebrito.mybooks.api.assunto.AssuntoView;
 import br.com.prfelipebrito.mybooks.shared.domain.Assunto;
@@ -44,11 +44,23 @@ public class AssuntoServiceTest extends MybooksApplicationTests {
 	
 	@Test
 	public void whenSaving_thenReturnsCreatedAssuntoView() throws Exception {
-		AssuntoCreateForm assuntoForm = new AssuntoCreateForm("Ficção");
-		AssuntoView assuntoView = new AssuntoView(1, "Ficção");
+		AssuntoForm assuntoForm = new AssuntoForm("Ficção");
 		
 		AssuntoView createdAssuntoView = this.service.save(assuntoForm);
 		
-		assertEquals(assuntoView, createdAssuntoView);
+		assertNotNull(createdAssuntoView);
+		assertNotNull(createdAssuntoView.getCodAs());
+		assertEquals("Ficção", createdAssuntoView.getDescricao());
+	}
+	
+	@Test
+	public void whenUpdating_thenReturns200() throws Exception {
+        var codAs = this.entityManager.persist(new Assunto(null, "Tecnologia")).getCodAs();
+		var assuntoForm = new AssuntoForm("Mundo Tech");
+		
+		AssuntoView updatedAssuntoView = this.service.update(codAs, assuntoForm);
+		
+		assertEquals(codAs, updatedAssuntoView.getCodAs());
+		assertEquals(assuntoForm.getDescricao(), updatedAssuntoView.getDescricao());
 	}
 }
