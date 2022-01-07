@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.prfelipebrito.mybooks.shared.domain.Assunto;
+
 @Service
 public class AssuntoService {
 
@@ -27,6 +29,12 @@ public class AssuntoService {
 		
 		this.repository.save(assunto);
 		
+		return this.viewMapper.map(assunto);
+	}
+
+	public AssuntoView details(Integer codAs) {
+		Assunto assunto = this.repository.findByCodAs(codAs).orElse(null);
+
 		return this.viewMapper.map(assunto);
 	}
 }

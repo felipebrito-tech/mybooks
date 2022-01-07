@@ -14,6 +14,7 @@ import br.com.prfelipebrito.mybooks.MybooksApplicationTests;
 import br.com.prfelipebrito.mybooks.api.assunto.AssuntoCreateForm;
 import br.com.prfelipebrito.mybooks.api.assunto.AssuntoService;
 import br.com.prfelipebrito.mybooks.api.assunto.AssuntoView;
+import br.com.prfelipebrito.mybooks.shared.domain.Assunto;
 
 @Transactional
 public class AssuntoServiceTest extends MybooksApplicationTests {
@@ -31,10 +32,10 @@ public class AssuntoServiceTest extends MybooksApplicationTests {
 
 	@Test
 	public void whenList_theReturnsAllAssuntos() {
-		this.service.save(new AssuntoCreateForm("Economia"));
-		this.service.save(new AssuntoCreateForm("Tecnologia"));
-		this.service.save(new AssuntoCreateForm("Psicologia"));
-		
+        this.entityManager.persist(new Assunto(null, "Tecnologia"));
+        this.entityManager.persist(new Assunto(null, "Psicologia"));
+        this.entityManager.persist(new Assunto(null, "Economia"));
+
 		List<AssuntoView> assuntos = this.service.listAll();
 
 		assertNotNull(assuntos);
