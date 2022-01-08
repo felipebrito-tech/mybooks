@@ -1,4 +1,4 @@
-package br.com.prfelipebrito.mybooks.assunto;
+package br.com.prfelipebrito.mybooks.api.assunto;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -27,7 +27,7 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 
     @BeforeEach
     void setup() {
-        assuntoCreated = this.entityManager.persist(new Assunto(null, "Tecnologia"));
+        this.assuntoCreated = this.entityManager.persist(new Assunto("Tecnologia"));
     }
 	
 	@Test

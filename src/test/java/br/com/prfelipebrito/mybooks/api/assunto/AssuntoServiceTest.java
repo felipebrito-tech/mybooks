@@ -1,4 +1,4 @@
-package br.com.prfelipebrito.mybooks.assunto;
+package br.com.prfelipebrito.mybooks.api.assunto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -105,6 +105,6 @@ public class AssuntoServiceTest extends MybooksApplicationTests {
 	}
 
 	private Assunto persistNewAssunto(String descricao) {
-		return this.entityManager.persist(new Assunto(null, descricao));
+		return this.entityManager.persist(new Assunto(descricao));
 	}
 }

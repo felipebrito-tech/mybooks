@@ -10,7 +10,7 @@ public class AssuntoFormMapper implements Mapper<AssuntoForm, Assunto> {
 
 	@Override
 	public Assunto map(AssuntoForm source) {
-		return new Assunto(null, source.getDescricao());
+		return new Assunto(source.getDescricao());
 	}
 
 }

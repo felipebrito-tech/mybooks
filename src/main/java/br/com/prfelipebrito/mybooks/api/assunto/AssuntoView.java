@@ -5,6 +5,7 @@ import java.util.Objects;
 public class AssuntoView {
 
 	private Integer codAs;
+
 	private String descricao;
 
 	public AssuntoView(Integer codAs, String descricao) {
