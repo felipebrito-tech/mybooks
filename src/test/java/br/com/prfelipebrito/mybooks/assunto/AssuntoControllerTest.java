@@ -54,23 +54,35 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$.descricao", equalTo("Tecnologia")));
 	}
+
+	@Test
+	public void whenDetailsAndAssuntoIsNotFound_thenReturns404() throws Exception {
+		this.mockMvc.perform(get("/assuntos/{codAs}", 999))
+					.andExpect(status().isNotFound());
+	}
 	
 	@Test
 	public void whenUpdating_thenReturns200() throws Exception {
-		var assuntoForm = new AssuntoForm("Mundo Tech");
+		String request = this.objectMapper.writeValueAsString(new AssuntoForm("Mundo Tech"));
 		
-		String request = this.objectMapper.writeValueAsString(assuntoForm);
-		
-		this.mockMvc.perform(put("/assuntos/{codAs}", this.assuntoCreated.getCodAs()).header("Content-Type", "application/json").content(request))
-					.andExpect(status().isOk());
+		this.mockMvc.perform(put("/assuntos/{codAs}", 9999).header("Content-Type", "application/json").content(request))
+					.andExpect(status().isNotFound());
+	}
 
-		this.mockMvc.perform(get("/assuntos/{codAs}", this.assuntoCreated.getCodAs()))
-					.andExpect(status().isOk())
-					.andExpect(jsonPath("$.descricao", equalTo("Mundo Tech")));
+	@Test
+	public void whenUpdatingAndAssuntoIsNotFound_thenReturns404() throws Exception {
+		this.mockMvc.perform(get("/assuntos/{codAs}", 9999))
+					.andExpect(status().isNotFound());
 	}
 	
 	@Test
 	public void whenDeleting_thenReturns200() throws Exception {
 		this.mockMvc.perform(delete("/assuntos/{codAs}", this.assuntoCreated.getCodAs())).andExpect(status().isOk());
+	}
+
+	@Test
+	public void whenDeletingAndAssuntoIsNotFound_thenReturns404() throws Exception {
+		this.mockMvc.perform(delete("/assuntos/{codAs}", 9999))
+					.andExpect(status().isNotFound());
 	}
 }

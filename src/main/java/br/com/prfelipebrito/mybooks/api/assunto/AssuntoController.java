@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.prfelipebrito.mybooks.shared.infra.ResourceNotFoundException;
+
 @RestController
 @RequestMapping("/assuntos")
 public class AssuntoController {
@@ -37,21 +39,36 @@ public class AssuntoController {
 	}
 
 	@GetMapping("{codAs}")
-	public AssuntoView details(@PathVariable Integer codAs) {
-		AssuntoView assuntoView = this.service.details(codAs);
-		
-		return assuntoView;
+	public ResponseEntity<AssuntoView> details(@PathVariable Integer codAs) {
+		try {
+			AssuntoView assuntoView = this.service.details(codAs);
+			
+			return ResponseEntity.ok(assuntoView);
+		}
+		catch (ResourceNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@PutMapping("{codAs}")
-	public AssuntoView update(@PathVariable Integer codAs, @RequestBody AssuntoForm form, UriComponentsBuilder uriBuilder) {
-		return this.service.update(codAs, form);
+	public ResponseEntity<AssuntoView> update(@PathVariable Integer codAs, @RequestBody AssuntoForm form, UriComponentsBuilder uriBuilder) {
+		try {
+			return ResponseEntity.ok(this.service.update(codAs, form));			
+		}
+		catch (ResourceNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@DeleteMapping("{codAs}")
 	public ResponseEntity<?> remove(@PathVariable Integer codAs, UriComponentsBuilder uriBuilder) {
-		this.service.removeBy(codAs);
-
-		return ResponseEntity.ok().build();
+		try {
+			this.service.removeBy(codAs);
+			
+			return ResponseEntity.ok().build();
+		}
+		catch (ResourceNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 }
