@@ -1,6 +1,7 @@
 package br.com.prfelipebrito.mybooks.assunto;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -66,5 +67,10 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 		this.mockMvc.perform(get("/assuntos/{codAs}", this.assuntoCreated.getCodAs()))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$.descricao", equalTo("Mundo Tech")));
+	}
+	
+	@Test
+	public void whenDeleting_thenReturns200() throws Exception {
+		this.mockMvc.perform(delete("/assuntos/{codAs}", this.assuntoCreated.getCodAs())).andExpect(status().isOk());
 	}
 }

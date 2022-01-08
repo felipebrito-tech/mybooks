@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,5 +46,12 @@ public class AssuntoController {
 	@PutMapping("{codAs}")
 	public AssuntoView update(@PathVariable Integer codAs, @RequestBody AssuntoForm form, UriComponentsBuilder uriBuilder) {
 		return this.service.update(codAs, form);
+	}
+
+	@DeleteMapping("{codAs}")
+	public ResponseEntity<?> remove(@PathVariable Integer codAs, UriComponentsBuilder uriBuilder) {
+		this.service.removeBy(codAs);
+
+		return ResponseEntity.ok().build();
 	}
 }

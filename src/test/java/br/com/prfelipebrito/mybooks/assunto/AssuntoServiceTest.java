@@ -2,6 +2,7 @@ package br.com.prfelipebrito.mybooks.assunto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class AssuntoServiceTest extends MybooksApplicationTests {
 	private AssuntoService service;
 
 	@Test
-	public void whenList_theReturnsAVoidAssuntoList() {
+	public void whenList_thenReturnsAVoidAssuntoList() {
 		List<AssuntoView> assuntos = this.service.listAll();
 
 		assertNotNull(assuntos);
@@ -31,10 +32,10 @@ public class AssuntoServiceTest extends MybooksApplicationTests {
 	}
 
 	@Test
-	public void whenList_theReturnsAllAssuntos() {
-        this.entityManager.persist(new Assunto(null, "Tecnologia"));
-        this.entityManager.persist(new Assunto(null, "Psicologia"));
-        this.entityManager.persist(new Assunto(null, "Economia"));
+	public void whenList_thenReturnsAllAssuntos() {
+		this.persistNewAssunto("Tecnologia");
+		this.persistNewAssunto("Psicologia");
+		this.persistNewAssunto("Economia");
 
 		List<AssuntoView> assuntos = this.service.listAll();
 
@@ -44,7 +45,7 @@ public class AssuntoServiceTest extends MybooksApplicationTests {
 	
 	@Test
 	public void whenSaving_thenReturnsCreatedAssuntoView() throws Exception {
-		AssuntoForm assuntoForm = new AssuntoForm("Ficção");
+		var assuntoForm = new AssuntoForm("Ficção");
 		
 		AssuntoView createdAssuntoView = this.service.save(assuntoForm);
 		
@@ -52,15 +53,39 @@ public class AssuntoServiceTest extends MybooksApplicationTests {
 		assertNotNull(createdAssuntoView.getCodAs());
 		assertEquals("Ficção", createdAssuntoView.getDescricao());
 	}
+
+	@Test
+	public void whenDetails_thenShowsAssuntoDetails() throws Exception {
+        var codAs = this.persistNewAssunto("Tecnologia").getCodAs();
+        
+        AssuntoView assuntoView = this.service.details(codAs);
+
+        assertNotNull(assuntoView);
+        assertEquals(codAs, assuntoView.getCodAs());
+        assertEquals("Tecnologia", assuntoView.getDescricao());
+	}
 	
 	@Test
-	public void whenUpdating_thenReturns200() throws Exception {
-        var codAs = this.entityManager.persist(new Assunto(null, "Tecnologia")).getCodAs();
+	public void whenUpdating_thenReturnsUpdatedAssuntoView() throws Exception {
+        var codAs = this.persistNewAssunto("Tecnologia").getCodAs();
 		var assuntoForm = new AssuntoForm("Mundo Tech");
 		
 		AssuntoView updatedAssuntoView = this.service.update(codAs, assuntoForm);
 		
 		assertEquals(codAs, updatedAssuntoView.getCodAs());
 		assertEquals(assuntoForm.getDescricao(), updatedAssuntoView.getDescricao());
+	}
+	
+	@Test
+	public void whenDeleting_thenSucceed() throws Exception {
+        var codAs = this.persistNewAssunto("Tecnologia").getCodAs();
+
+        this.service.removeBy(codAs);
+        
+        assertNull(this.entityManager.find(Assunto.class, codAs));
+	}
+
+	private Assunto persistNewAssunto(String descricao) {
+		return this.entityManager.persist(new Assunto(null, descricao));
 	}
 }

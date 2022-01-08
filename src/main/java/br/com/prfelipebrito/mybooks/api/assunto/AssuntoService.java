@@ -52,4 +52,9 @@ public class AssuntoService {
 		
 		return this.viewMapper.map(assunto);
 	}
+
+	@Transactional
+	public void removeBy(Integer codAs) {
+		this.repository.deleteById(codAs);
+	}
 }
