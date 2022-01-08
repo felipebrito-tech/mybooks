@@ -3,6 +3,8 @@ package br.com.prfelipebrito.mybooks.api.assunto;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +32,7 @@ public class AssuntoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<AssuntoView> create(@RequestBody AssuntoForm form, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<AssuntoView> create(@RequestBody @Valid AssuntoForm form, UriComponentsBuilder uriBuilder) {
 		AssuntoView assuntoView = this.service.save(form);
 
 		URI uri = uriBuilder.path("/assuntos/{codAs}").buildAndExpand(assuntoView.getCodAs()).toUri();
@@ -51,7 +53,7 @@ public class AssuntoController {
 	}
 
 	@PutMapping("{codAs}")
-	public ResponseEntity<AssuntoView> update(@PathVariable Integer codAs, @RequestBody AssuntoForm form, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<AssuntoView> update(@PathVariable @Valid Integer codAs, @RequestBody @Valid AssuntoForm form, UriComponentsBuilder uriBuilder) {
 		try {
 			return ResponseEntity.ok(this.service.update(codAs, form));			
 		}
