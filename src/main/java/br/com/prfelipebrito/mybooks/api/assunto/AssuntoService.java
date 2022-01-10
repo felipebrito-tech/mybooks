@@ -37,15 +37,19 @@ public class AssuntoService {
 		return this.viewMapper.map(assunto);
 	}
 
+	public Assunto findByCodAs(Integer codAs) throws ResourceNotFoundException {
+		return this.repository.findByCodAs(codAs).orElseThrow(() -> new ResourceNotFoundException(String.join(" ", "Assunto não encontrado! -> codAs =", codAs.toString())));
+	}
+
 	public AssuntoView details(Integer codAs) throws ResourceNotFoundException {
-		Assunto assunto = this.repository.findByCodAs(codAs).orElseThrow(() -> new ResourceNotFoundException("Assunto não encontrado!"));
+		Assunto assunto = this.findByCodAs(codAs);
 
 		return this.viewMapper.map(assunto);
 	}
 
 	@Transactional
-	public AssuntoView update(Integer codAs, AssuntoForm assuntoForm) {
-		Assunto assunto = this.repository.findByCodAs(codAs).orElseThrow(() -> new ResourceNotFoundException("Assunto não encontrado!"));
+	public AssuntoView update(Integer codAs, AssuntoForm assuntoForm) throws ResourceNotFoundException {
+		Assunto assunto = this.findByCodAs(codAs);
 		
 		assunto.setDescricao(assuntoForm.getDescricao());
 		
@@ -54,7 +58,7 @@ public class AssuntoService {
 
 	@Transactional
 	public void removeBy(Integer codAs) {
-		this.repository.findByCodAs(codAs).orElseThrow(() -> new ResourceNotFoundException("Assunto não encontrado!"));
+		this.findByCodAs(codAs);
 
 		this.repository.deleteById(codAs);
 	}

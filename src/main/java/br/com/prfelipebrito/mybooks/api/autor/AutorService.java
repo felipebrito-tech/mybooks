@@ -37,15 +37,19 @@ public class AutorService {
 		return this.viewMapper.map(autor);
 	}
 
+	public Autor findByCodAu(Integer codAu) throws ResourceNotFoundException {
+		return this.repository.findByCodAu(codAu).orElseThrow(() -> new ResourceNotFoundException(String.join(" ", "Autor não encontrado! -> codAu =", codAu.toString())));
+	}
+
 	public AutorView details(Integer codAu) throws ResourceNotFoundException {
-		Autor autor = this.repository.findByCodAu(codAu).orElseThrow(() -> new ResourceNotFoundException("Autor não encontrado!"));
+		Autor autor = this.findByCodAu(codAu);
 
 		return this.viewMapper.map(autor);
 	}
 
 	@Transactional
-	public AutorView update(Integer codAu, AutorForm autorForm) {
-		Autor autor = this.repository.findByCodAu(codAu).orElseThrow(() -> new ResourceNotFoundException("Autor não encontrado!"));
+	public AutorView update(Integer codAu, AutorForm autorForm) throws ResourceNotFoundException {
+		Autor autor = this.findByCodAu(codAu);
 		
 		autor.setNome(autorForm.getNome());
 		
@@ -54,7 +58,7 @@ public class AutorService {
 
 	@Transactional
 	public void removeBy(Integer codAu) {
-		this.repository.findByCodAu(codAu).orElseThrow(() -> new ResourceNotFoundException("Autor não encontrado!"));
+		this.findByCodAu(codAu);
 
 		this.repository.deleteById(codAu);
 	}

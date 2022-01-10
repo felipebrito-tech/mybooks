@@ -45,6 +45,17 @@ public class Livro {
 	
 	public Livro() {}
 
+	public Livro(String titulo, String editora, Integer edicao, String anoPublicacao, List<Autor> autores,
+			List<Assunto> assuntos) {
+		super();
+		this.titulo = titulo;
+		this.editora = editora;
+		this.edicao = edicao;
+		this.anoPublicacao = anoPublicacao;
+		this.autores = autores;
+		this.assuntos = assuntos;
+	}
+
 	public Integer getCodL() {
 		return codL;
 	}

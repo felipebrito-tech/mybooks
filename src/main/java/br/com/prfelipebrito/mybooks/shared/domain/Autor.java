@@ -21,6 +21,11 @@ public class Autor {
 	public Autor() {}
 
 	public Autor(String nome) {
+		this(null, nome);
+	}
+
+	public Autor(Integer codAu, String nome) {
+		this.codAu = codAu;
 		this.nome = nome;
 	}
 
