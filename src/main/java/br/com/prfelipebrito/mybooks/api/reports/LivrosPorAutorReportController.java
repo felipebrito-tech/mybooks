@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.prfelipebrito.mybooks.shared.domain.reports.LivrosPorAutorReportData;
-
 @RestController
 @RequestMapping("/livros-por-autor-report")
 public class LivrosPorAutorReportController {
@@ -17,7 +15,7 @@ public class LivrosPorAutorReportController {
 	private LivrosPorAutorReportService service;
 
 	@GetMapping
-	public List<LivrosPorAutorReportData> list() {
+	public List<LivrosPorAutorReportDataView> list() {
 		return this.service.listAll();
 	}
 }

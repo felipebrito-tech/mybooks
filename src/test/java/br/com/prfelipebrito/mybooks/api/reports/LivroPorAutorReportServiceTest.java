@@ -2,6 +2,7 @@ package br.com.prfelipebrito.mybooks.api.reports;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,6 @@ import br.com.prfelipebrito.mybooks.MybooksApplicationTests;
 import br.com.prfelipebrito.mybooks.shared.domain.Assunto;
 import br.com.prfelipebrito.mybooks.shared.domain.Autor;
 import br.com.prfelipebrito.mybooks.shared.domain.Livro;
-import br.com.prfelipebrito.mybooks.shared.domain.reports.LivrosPorAutorReportData;
 
 class LivroPorAutorReportServiceTest extends MybooksApplicationTests {
 
@@ -22,7 +22,7 @@ class LivroPorAutorReportServiceTest extends MybooksApplicationTests {
 
 	@Test
 	public void whenList_thenReturnsAVoidList() {
-		List<LivrosPorAutorReportData> reportDataList = this.service.listAll();
+		List<LivrosPorAutorReportDataView> reportDataList = this.service.listAll();
 
 		assertNotNull(reportDataList);
 		assertEquals(0, reportDataList.size());
@@ -33,9 +33,26 @@ class LivroPorAutorReportServiceTest extends MybooksApplicationTests {
 		this.setUp();
 
 		var livrosPorAutorData = this.service.listAll();
-
+		
 		assertNotNull(livrosPorAutorData);
 		assertEquals(6, livrosPorAutorData.size());
+
+		var livrosGreg = this.getLivrosPorAutorBy(livrosPorAutorData, "Greg Mckeown");
+
+		assertNotNull(livrosGreg);
+		assertNotNull(livrosGreg.getAutor());
+		assertNotNull(livrosGreg.getLivros());
+		assertNotNull(livrosGreg.getLivros().get(0));
+
+		var livrosFelipe = this.getLivrosPorAutorBy(livrosPorAutorData, "Felipe Brito");
+
+		assertNotNull(livrosFelipe);
+		assertNotNull(livrosFelipe.getAutor());
+		assertNull(livrosFelipe.getLivros());
+	}
+
+	private LivrosPorAutorReportDataView getLivrosPorAutorBy(List<LivrosPorAutorReportDataView> livrosPorAutorData, String nomeAutor) {
+		return livrosPorAutorData.stream().filter(livrosPorAutor -> livrosPorAutor.getAutor().getNome().equals(nomeAutor)).findFirst().get();
 	}
 
 	private void setUp() {
@@ -67,11 +84,20 @@ class LivroPorAutorReportServiceTest extends MybooksApplicationTests {
 		this.entityManager.persist(vidaCrista);
 		this.entityManager.persist(lideranca);
 
-		this.entityManager.persist(new Livro("Essencialismo", "Editora Sextante", 1, "2015", Arrays.asList(greg), Arrays.asList(adm, negocios, economia)));
-		this.entityManager.persist(new Livro("Sem esforço", "Editora Sextante", 1, "2021", Arrays.asList(greg), Arrays.asList(adm, negocios, economia)));
-		this.entityManager.persist(new Livro("O poder do hábito", "Objetiva", 1, "2012", Arrays.asList(duhigg), Arrays.asList(adm, negocios, economia)));
-		this.entityManager.persist(new Livro("Cristianismo puro e simples", "Thomas Nelson Brasil", 1, "2017", Arrays.asList(lewis), Arrays.asList(teologia)));
-		this.entityManager.persist(new Livro("Ego transformado", "Vida Nova", 1, "2014", Arrays.asList(keller), Arrays.asList(vidaCrista)));
-		this.entityManager.persist(new Livro("Multiplicadores", "Rocco Digital", 1, "2012", Arrays.asList(greg, wiseman), Arrays.asList(lideranca, negocios, economia)));
+		Livro livro1 = new Livro("Essencialismo", "Editora Sextante", 1, "2015", Arrays.asList(greg), Arrays.asList(adm, negocios, economia));
+		Livro livro2 = new Livro("Sem esforço", "Editora Sextante", 1, "2021", Arrays.asList(greg), Arrays.asList(adm, negocios, economia));
+		Livro livro3 = new Livro("O poder do hábito", "Objetiva", 1, "2012", Arrays.asList(duhigg), Arrays.asList(adm, negocios, economia));
+		Livro livro4 = new Livro("Cristianismo puro e simples", "Thomas Nelson Brasil", 1, "2017", Arrays.asList(lewis), Arrays.asList(teologia));
+		Livro livro5 = new Livro("Ego transformado", "Vida Nova", 1, "2014", Arrays.asList(keller), Arrays.asList(vidaCrista));
+		Livro livro6 = new Livro("Multiplicadores", "Rocco Digital", 1, "2012", Arrays.asList(greg, wiseman), Arrays.asList(lideranca, negocios, economia));
+		
+		this.entityManager.persist(livro1);
+		this.entityManager.persist(livro2);
+		this.entityManager.persist(livro3);
+		this.entityManager.persist(livro4);
+		this.entityManager.persist(livro6);
+		this.entityManager.persist(livro5);
+		
+		this.entityManager.flush();
 	}
 }
