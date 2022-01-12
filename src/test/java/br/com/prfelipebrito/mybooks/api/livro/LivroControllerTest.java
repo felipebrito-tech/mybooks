@@ -43,7 +43,7 @@ class LivroControllerTest extends MybooksApplicationTests {
 	
 	@Test
 	public void whenList_thenReturns200() throws Exception {
-		this.mockMvc.perform(get("/livros"))
+		this.mockMvc.perform(get("/api/livros"))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$[0].titulo", equalTo("Essencialismo")))
 					.andExpect(jsonPath("$[0].editora", equalTo("Editora Sextante")))
@@ -61,7 +61,7 @@ class LivroControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(livroForm);
 		
-		this.mockMvc.perform(post("/livros").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/livros").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isCreated())
 					.andExpect(jsonPath("$.titulo", equalTo("Sem esforço")))
 					.andExpect(jsonPath("$.editora", equalTo("Editora Sextante")))
@@ -79,7 +79,7 @@ class LivroControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(livroForm);
 		
-		this.mockMvc.perform(post("/livros").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/livros").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -89,7 +89,7 @@ class LivroControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(livroForm);
 		
-		this.mockMvc.perform(post("/livros").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/livros").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -99,7 +99,7 @@ class LivroControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(livroForm);
 		
-		this.mockMvc.perform(post("/livros").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/livros").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -110,7 +110,7 @@ class LivroControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(livroForm);
 		
-		this.mockMvc.perform(post("/livros").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/livros").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -121,7 +121,7 @@ class LivroControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(livroForm);
 		
-		this.mockMvc.perform(post("/livros").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/livros").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -132,7 +132,7 @@ class LivroControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(livroForm);
 		
-		this.mockMvc.perform(post("/livros").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/livros").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -143,13 +143,13 @@ class LivroControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(livroForm);
 		
-		this.mockMvc.perform(post("/livros").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/livros").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void whenDetails_thenReturns200() throws Exception {
-		this.mockMvc.perform(get("/livros/{codL}", this.livroCreated.getCodL()))
+		this.mockMvc.perform(get("/api/livros/{codL}", this.livroCreated.getCodL()))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$.titulo", equalTo("Essencialismo")))
 					.andExpect(jsonPath("$.editora", equalTo("Editora Sextante")))
@@ -163,13 +163,13 @@ class LivroControllerTest extends MybooksApplicationTests {
 
 	@Test
 	public void whenDetailsAndLivroIsNotFound_thenReturns404() throws Exception {
-		this.mockMvc.perform(get("/livros/{codL}", 999))
+		this.mockMvc.perform(get("/api/livros/{codL}", 999))
 					.andExpect(status().isNotFound());
 	}
 
 	@Test
 	public void whenDetailsAndCodLIsAString_thenReturns400() throws Exception {
-		this.mockMvc.perform(get("/livros/teste"))
+		this.mockMvc.perform(get("/api/livros/teste"))
 					.andExpect(status().isBadRequest())
 					.andExpect(jsonPath("$[0].field", equalTo("codL")));
 	}
@@ -180,10 +180,10 @@ class LivroControllerTest extends MybooksApplicationTests {
 		
 		String request = this.objectMapper.writeValueAsString(livroForm);
 		
-		this.mockMvc.perform(put("/livros/{codL}", this.livroCreated.getCodL()).header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/livros/{codL}", this.livroCreated.getCodL()).header("Content-Type", "application/json").content(request))
 					.andExpect(status().isOk());
 
-		this.mockMvc.perform(get("/livros/{codL}", this.livroCreated.getCodL()))
+		this.mockMvc.perform(get("/api/livros/{codL}", this.livroCreated.getCodL()))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$.titulo", equalTo("Sem esforço")))
 					.andExpect(jsonPath("$.editora", equalTo("Editora Sextante")))
@@ -201,18 +201,18 @@ class LivroControllerTest extends MybooksApplicationTests {
 	
 		String request = this.objectMapper.writeValueAsString(livroForm);
 		
-		this.mockMvc.perform(put("/livros/{codL}", 9999).header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/livros/{codL}", 9999).header("Content-Type", "application/json").content(request))
 					.andExpect(status().isNotFound());
 	}
 
 	@Test
 	public void whenDeleting_thenReturns200() throws Exception {
-		this.mockMvc.perform(delete("/livros/{codL}", this.livroCreated.getCodL())).andExpect(status().isOk());
+		this.mockMvc.perform(delete("/api/livros/{codL}", this.livroCreated.getCodL())).andExpect(status().isOk());
 	}
 
 	@Test
 	public void whenDeletingAndAssuntoIsNotFound_thenReturns404() throws Exception {
-		this.mockMvc.perform(delete("/livros/{codL}", 9999))
+		this.mockMvc.perform(delete("/api/livros/{codL}", 9999))
 					.andExpect(status().isNotFound());
 	}
 

@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.prfelipebrito.mybooks.MybooksApplicationTests;
-import br.com.prfelipebrito.mybooks.api.assunto.AssuntoForm;
 import br.com.prfelipebrito.mybooks.shared.domain.Assunto;
 
 public class AssuntoControllerTest extends MybooksApplicationTests {
@@ -32,7 +31,7 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 	
 	@Test
 	public void whenList_thenReturns200() throws Exception {
-		this.mockMvc.perform(get("/assuntos"))
+		this.mockMvc.perform(get("/api/assuntos"))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$[0].descricao", equalTo("Tecnologia")));;
 	}
@@ -43,7 +42,7 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(assuntoForm);
 		
-		this.mockMvc.perform(post("/assuntos").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/assuntos").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isCreated())
 					.andExpect(jsonPath("$.descricao", equalTo("Ficção")));
 	}
@@ -54,7 +53,7 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(assuntoForm);
 		
-		this.mockMvc.perform(post("/assuntos").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/assuntos").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -64,7 +63,7 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(assuntoForm);
 		
-		this.mockMvc.perform(post("/assuntos").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/assuntos").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -74,26 +73,26 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(assuntoForm);
 		
-		this.mockMvc.perform(post("/assuntos").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/assuntos").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void whenDetails_thenReturns200() throws Exception {
-		this.mockMvc.perform(get("/assuntos/{codAs}", this.assuntoCreated.getCodAs()))
+		this.mockMvc.perform(get("/api/assuntos/{codAs}", this.assuntoCreated.getCodAs()))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$.descricao", equalTo("Tecnologia")));
 	}
 
 	@Test
 	public void whenDetailsAndAssuntoIsNotFound_thenReturns404() throws Exception {
-		this.mockMvc.perform(get("/assuntos/{codAs}", 999))
+		this.mockMvc.perform(get("/api/assuntos/{codAs}", 999))
 					.andExpect(status().isNotFound());
 	}
 
 	@Test
 	public void whenDetailsAndCodAsIsAString_thenReturns400() throws Exception {
-		this.mockMvc.perform(get("/assuntos/teste"))
+		this.mockMvc.perform(get("/api/assuntos/teste"))
 					.andExpect(status().isBadRequest())
 					.andExpect(jsonPath("$[0].field", equalTo("codAs")));
 	}
@@ -104,10 +103,10 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 		
 		String request = this.objectMapper.writeValueAsString(assuntoForm);
 		
-		this.mockMvc.perform(put("/assuntos/{codAs}", this.assuntoCreated.getCodAs()).header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/assuntos/{codAs}", this.assuntoCreated.getCodAs()).header("Content-Type", "application/json").content(request))
 					.andExpect(status().isOk());
 
-		this.mockMvc.perform(get("/assuntos/{codAs}", this.assuntoCreated.getCodAs()))
+		this.mockMvc.perform(get("/api/assuntos/{codAs}", this.assuntoCreated.getCodAs()))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$.descricao", equalTo("Mundo Tech")));
 	}
@@ -116,7 +115,7 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 	public void whenUpdatingAndAssuntoIsNotFound_thenReturns404() throws Exception {
 		String request = this.objectMapper.writeValueAsString(new AssuntoForm("Mundo Tech"));
 		
-		this.mockMvc.perform(put("/assuntos/{codAs}", 9999).header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/assuntos/{codAs}", 9999).header("Content-Type", "application/json").content(request))
 					.andExpect(status().isNotFound());
 	}
 
@@ -124,7 +123,7 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 	public void whenUpdatingAndCodAsIsAString_thenReturns400() throws Exception {
 		String request = this.objectMapper.writeValueAsString(new AssuntoForm("Mundo Tech"));
 		
-		this.mockMvc.perform(put("/assuntos/teste").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/assuntos/teste").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest())
 					.andExpect(jsonPath("$[0].field", equalTo("codAs")));
 	}
@@ -133,7 +132,7 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 	public void whenUpdatingWithEmptyDescricao_thenReturns400() throws Exception {
 		String request = this.objectMapper.writeValueAsString(new AssuntoForm(""));
 		
-		this.mockMvc.perform(put("/assuntos/{codAs}", this.assuntoCreated.getCodAs()).header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/assuntos/{codAs}", this.assuntoCreated.getCodAs()).header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -141,7 +140,7 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 	public void whenUpdatingWithNullDescricao_thenReturns400() throws Exception {
 		String request = this.objectMapper.writeValueAsString(new AssuntoForm(null));
 		
-		this.mockMvc.perform(put("/assuntos/{codAs}", this.assuntoCreated.getCodAs()).header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/assuntos/{codAs}", this.assuntoCreated.getCodAs()).header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -149,24 +148,24 @@ public class AssuntoControllerTest extends MybooksApplicationTests {
 	public void whenUpdatingWithBiggerDescricao_thenReturns400() throws Exception {
 		String request = this.objectMapper.writeValueAsString(new AssuntoForm("Desenvolvimento Pessoal"));
 		
-		this.mockMvc.perform(put("/assuntos/{codAs}", this.assuntoCreated.getCodAs()).header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/assuntos/{codAs}", this.assuntoCreated.getCodAs()).header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
 	@Test
 	public void whenDeleting_thenReturns200() throws Exception {
-		this.mockMvc.perform(delete("/assuntos/{codAs}", this.assuntoCreated.getCodAs())).andExpect(status().isOk());
+		this.mockMvc.perform(delete("/api/assuntos/{codAs}", this.assuntoCreated.getCodAs())).andExpect(status().isOk());
 	}
 
 	@Test
 	public void whenDeletingAndAssuntoIsNotFound_thenReturns404() throws Exception {
-		this.mockMvc.perform(delete("/assuntos/{codAs}", 9999))
+		this.mockMvc.perform(delete("/api/assuntos/{codAs}", 9999))
 					.andExpect(status().isNotFound());
 	}
 
 	@Test
 	public void whenDeletingAndCodAsIsAString_thenReturns400() throws Exception {
-		this.mockMvc.perform(delete("/assuntos/teste"))
+		this.mockMvc.perform(delete("/api/assuntos/teste"))
 					.andExpect(status().isBadRequest())
 					.andExpect(jsonPath("$[0].field", equalTo("codAs")));
 	}

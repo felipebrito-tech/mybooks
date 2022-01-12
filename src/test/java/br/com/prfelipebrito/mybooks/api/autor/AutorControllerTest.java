@@ -31,7 +31,7 @@ class AutorControllerTest extends MybooksApplicationTests {
 	
 	@Test
 	public void whenList_thenReturns200() throws Exception {
-		this.mockMvc.perform(get("/autores"))
+		this.mockMvc.perform(get("/api/autores"))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$[0].nome", equalTo("Felipe Brito")));;
 	}
@@ -42,7 +42,7 @@ class AutorControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(autorForm);
 		
-		this.mockMvc.perform(post("/autores").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/autores").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isCreated())
 					.andExpect(jsonPath("$.nome", equalTo("Felipe Brito")));
 	}
@@ -53,7 +53,7 @@ class AutorControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(autorForm);
 		
-		this.mockMvc.perform(post("/autores").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/autores").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -63,7 +63,7 @@ class AutorControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(autorForm);
 		
-		this.mockMvc.perform(post("/autores").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/autores").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -73,26 +73,26 @@ class AutorControllerTest extends MybooksApplicationTests {
 
 		String request = this.objectMapper.writeValueAsString(autorForm);
 		
-		this.mockMvc.perform(post("/autores").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(post("/api/autores").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void whenDetails_thenReturns200() throws Exception {
-		this.mockMvc.perform(get("/autores/{codAu}", this.autorCreated.getCodAu()))
+		this.mockMvc.perform(get("/api/autores/{codAu}", this.autorCreated.getCodAu()))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$.nome", equalTo("Felipe Brito")));
 	}
 
 	@Test
 	public void whenDetailsAndAutorIsNotFound_thenReturns404() throws Exception {
-		this.mockMvc.perform(get("/autores/{codAu}", 999))
+		this.mockMvc.perform(get("/api/autores/{codAu}", 999))
 					.andExpect(status().isNotFound());
 	}
 
 	@Test
 	public void whenDetailsAndCodAuIsAString_thenReturns400() throws Exception {
-		this.mockMvc.perform(get("/autores/teste"))
+		this.mockMvc.perform(get("/api/autores/teste"))
 					.andExpect(status().isBadRequest())
 					.andExpect(jsonPath("$[0].field", equalTo("codAu")));
 	}
@@ -103,10 +103,10 @@ class AutorControllerTest extends MybooksApplicationTests {
 		
 		String request = this.objectMapper.writeValueAsString(autorForm);
 		
-		this.mockMvc.perform(put("/autores/{codAu}", this.autorCreated.getCodAu()).header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/autores/{codAu}", this.autorCreated.getCodAu()).header("Content-Type", "application/json").content(request))
 					.andExpect(status().isOk());
 
-		this.mockMvc.perform(get("/autores/{codAu}", this.autorCreated.getCodAu()))
+		this.mockMvc.perform(get("/api/autores/{codAu}", this.autorCreated.getCodAu()))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$.nome", equalTo("Felipe Brito")));
 	}
@@ -115,7 +115,7 @@ class AutorControllerTest extends MybooksApplicationTests {
 	public void whenUpdatingAndAutorIsNotFound_thenReturns404() throws Exception {
 		String request = this.objectMapper.writeValueAsString(new AutorForm("Felipe Brito"));
 		
-		this.mockMvc.perform(put("/autores/{codAu}", 9999).header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/autores/{codAu}", 9999).header("Content-Type", "application/json").content(request))
 					.andExpect(status().isNotFound());
 	}
 
@@ -123,7 +123,7 @@ class AutorControllerTest extends MybooksApplicationTests {
 	public void whenUpdatingAndCodAuIsAString_thenReturns400() throws Exception {
 		String request = this.objectMapper.writeValueAsString(new AutorForm("Felipe Brito"));
 		
-		this.mockMvc.perform(put("/autores/teste").header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/autores/teste").header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest())
 					.andExpect(jsonPath("$[0].field", equalTo("codAu")));
 	}
@@ -132,7 +132,7 @@ class AutorControllerTest extends MybooksApplicationTests {
 	public void whenUpdatingWithEmptyNome_thenReturns400() throws Exception {
 		String request = this.objectMapper.writeValueAsString(new AutorForm(""));
 		
-		this.mockMvc.perform(put("/autores/{codAu}", this.autorCreated.getCodAu()).header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/autores/{codAu}", this.autorCreated.getCodAu()).header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -140,7 +140,7 @@ class AutorControllerTest extends MybooksApplicationTests {
 	public void whenUpdatingWithNullNome_thenReturns400() throws Exception {
 		String request = this.objectMapper.writeValueAsString(new AutorForm(null));
 		
-		this.mockMvc.perform(put("/autores/{codAu}", this.autorCreated.getCodAu()).header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/autores/{codAu}", this.autorCreated.getCodAu()).header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
@@ -148,24 +148,24 @@ class AutorControllerTest extends MybooksApplicationTests {
 	public void whenUpdatingWithBiggerNome_thenReturns400() throws Exception {
 		String request = this.objectMapper.writeValueAsString(new AutorForm("Pedro de Alcântara Francisco Antônio João Carlos Xavier de Paula Miguel Rafael Joaquim José Gonzaga Pascoal Cipriano Serafim de Bragança e Bourbon"));
 		
-		this.mockMvc.perform(put("/autores/{codAu}", this.autorCreated.getCodAu()).header("Content-Type", "application/json").content(request))
+		this.mockMvc.perform(put("/api/autores/{codAu}", this.autorCreated.getCodAu()).header("Content-Type", "application/json").content(request))
 					.andExpect(status().isBadRequest());
 	}
 	
 	@Test
 	public void whenDeleting_thenReturns200() throws Exception {
-		this.mockMvc.perform(delete("/autores/{codAu}", this.autorCreated.getCodAu())).andExpect(status().isOk());
+		this.mockMvc.perform(delete("/api/autores/{codAu}", this.autorCreated.getCodAu())).andExpect(status().isOk());
 	}
 
 	@Test
 	public void whenDeletingAndAssuntoIsNotFound_thenReturns404() throws Exception {
-		this.mockMvc.perform(delete("/autores/{codAu}", 9999))
+		this.mockMvc.perform(delete("/api/autores/{codAu}", 9999))
 					.andExpect(status().isNotFound());
 	}
 
 	@Test
 	public void whenDeletingAndCodAuIsAString_thenReturns400() throws Exception {
-		this.mockMvc.perform(delete("/autores/teste"))
+		this.mockMvc.perform(delete("/api/autores/teste"))
 					.andExpect(status().isBadRequest())
 					.andExpect(jsonPath("$[0].field", equalTo("codAu")));
 	}

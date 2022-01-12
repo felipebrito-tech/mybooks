@@ -20,7 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.prfelipebrito.mybooks.shared.infra.ResourceNotFoundException;
 
 @RestController
-@RequestMapping("/autores")
+@RequestMapping("/api/autores")
 public class AutorController {
 
 	@Autowired

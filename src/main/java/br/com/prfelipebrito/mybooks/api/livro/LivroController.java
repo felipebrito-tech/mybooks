@@ -20,7 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.prfelipebrito.mybooks.shared.infra.ResourceNotFoundException;
 
 @RestController
-@RequestMapping("/livros")
+@RequestMapping("/api/livros")
 public class LivroController {
 
 	@Autowired
