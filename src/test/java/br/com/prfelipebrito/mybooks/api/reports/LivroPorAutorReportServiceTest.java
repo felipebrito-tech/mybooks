@@ -14,6 +14,7 @@ import br.com.prfelipebrito.mybooks.MybooksApplicationTests;
 import br.com.prfelipebrito.mybooks.shared.domain.Assunto;
 import br.com.prfelipebrito.mybooks.shared.domain.Autor;
 import br.com.prfelipebrito.mybooks.shared.domain.Livro;
+import br.com.prfelipebrito.mybooks.shared.domain.reports.LivrosPorAutorReportData;
 
 class LivroPorAutorReportServiceTest extends MybooksApplicationTests {
 
@@ -22,7 +23,7 @@ class LivroPorAutorReportServiceTest extends MybooksApplicationTests {
 
 	@Test
 	public void whenList_thenReturnsAVoidList() {
-		List<LivrosPorAutorReportDataView> reportDataList = this.service.listAll();
+		List<LivrosPorAutorReportData> reportDataList = this.service.listAll();
 
 		assertNotNull(reportDataList);
 		assertEquals(0, reportDataList.size());
@@ -35,24 +36,22 @@ class LivroPorAutorReportServiceTest extends MybooksApplicationTests {
 		var livrosPorAutorData = this.service.listAll();
 		
 		assertNotNull(livrosPorAutorData);
-		assertEquals(6, livrosPorAutorData.size());
+		assertEquals(8, livrosPorAutorData.size());
 
 		var livrosGreg = this.getLivrosPorAutorBy(livrosPorAutorData, "Greg Mckeown");
 
 		assertNotNull(livrosGreg);
-		assertNotNull(livrosGreg.getAutor());
-		assertNotNull(livrosGreg.getLivros());
-		assertNotNull(livrosGreg.getLivros().get(0));
+		assertEquals(3, livrosGreg.size());
 
 		var livrosFelipe = this.getLivrosPorAutorBy(livrosPorAutorData, "Felipe Brito");
 
 		assertNotNull(livrosFelipe);
-		assertNotNull(livrosFelipe.getAutor());
-		assertNull(livrosFelipe.getLivros());
+		assertEquals(1, livrosFelipe.size());
+		assertNull(livrosFelipe.get(0).getTitulo());
 	}
 
-	private LivrosPorAutorReportDataView getLivrosPorAutorBy(List<LivrosPorAutorReportDataView> livrosPorAutorData, String nomeAutor) {
-		return livrosPorAutorData.stream().filter(livrosPorAutor -> livrosPorAutor.getAutor().getNome().equals(nomeAutor)).findFirst().get();
+	private List<LivrosPorAutorReportData> getLivrosPorAutorBy(List<LivrosPorAutorReportData> livrosPorAutorData, String nomeAutor) {
+		return livrosPorAutorData.stream().filter(livrosPorAutor -> livrosPorAutor.getNome().equals(nomeAutor)).toList();
 	}
 
 	private void setUp() {
