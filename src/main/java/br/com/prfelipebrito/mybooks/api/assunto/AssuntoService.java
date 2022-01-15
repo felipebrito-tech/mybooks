@@ -7,6 +7,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.prfelipebrito.mybooks.shared.domain.Assunto;
@@ -57,7 +58,7 @@ public class AssuntoService {
 	}
 
 	@Transactional
-	public void removeBy(Integer codAs) {
+	public void removeBy(Integer codAs) throws DataIntegrityViolationException {
 		this.findByCodAs(codAs);
 
 		this.repository.deleteById(codAs);

@@ -13,9 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.prfelipebrito.mybooks.MybooksApplicationTests;
-import br.com.prfelipebrito.mybooks.api.assunto.AssuntoForm;
-import br.com.prfelipebrito.mybooks.api.assunto.AssuntoService;
-import br.com.prfelipebrito.mybooks.api.assunto.AssuntoView;
 import br.com.prfelipebrito.mybooks.shared.domain.Assunto;
 import br.com.prfelipebrito.mybooks.shared.infra.ResourceNotFoundException;
 
